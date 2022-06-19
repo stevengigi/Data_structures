@@ -56,6 +56,18 @@ void Reverse(){
     }
     head=prev;
 }
+//Reverse Link List with Recursive
+void RecursiveReverse(struct Node *temp){
+    if(temp->next==NULL){
+        head=temp;
+        return;
+    }
+    RecursiveReverse(temp->next);
+    struct Node *temp2=temp->next ;
+    temp2->next=temp;
+    temp->next=NULL;
+}
+
 //Use recursive method
 void Print(struct Node *temp){
    if(temp!=NULL){
@@ -94,4 +106,12 @@ int main(){
     Print(head);
     ReversePrint(head);
     printf("\n");
+    RecursiveReverse(head);
+    Print(head);
+    insert(7,2);
+    insert(8,2);
+    insert(9,2);
+    Print(head);
+    RecursiveReverse(head);
+    Print(head);
 }
