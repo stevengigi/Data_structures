@@ -1,3 +1,4 @@
-# c-_practice
+# Data_structures
 
-recording myself code haha 
+
+Record Data_structures and code
