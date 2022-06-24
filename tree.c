@@ -6,7 +6,12 @@ struct Node{
     int data;
     struct Node *left;
     struct Node *right;
+    struct Node *next;
 };
+
+
+struct Node *front=NULL;
+struct Node *rear=NULL;
 
 struct Node *root=NULL;
 
@@ -75,6 +80,44 @@ int findheight(struct Node *root){
     }
 }
 
+void addq(struct Node *root){
+    struct Node *temp=root;
+    if(rear==NULL && front==NULL){
+        rear=temp;
+        front=temp;
+        return;
+    }else{
+        rear->next=temp;
+        rear=temp;
+    }
+}
+
+void deleteq(){
+    if(front==NULL){
+        return;
+    }
+    struct Node *temp=front;
+    front=temp->next;
+    free(temp);
+}
+
+void levelorder(){
+    if(root==NULL){
+        return;
+    }
+    addq(root);
+    printf("LevelOrder : ");
+    while(front!=NULL)
+    {
+        struct Node *temp=front;
+        printf(" %d ",temp->data);
+        if(temp->left!=NULL) addq(temp->left);
+        if(temp->right!=NULL) addq(temp->right);
+        deleteq();
+    }
+    printf("\n");
+}
+
 int main(){
     root=insert(root,15);
     root=insert(root,10);
@@ -91,7 +134,8 @@ int main(){
     }else{
         printf("\nNot find !!\n");
     }
-    printf(" the max value in tree : %d\n",findmax(root));
-    printf(" the min value in tree : %d\n",findmin(root));
-    printf("the tree of height : %d",findheight(root)+1);
+    printf("the max value in tree : %d\n",findmax(root));
+    printf("the min value in tree : %d\n",findmin(root));
+    printf("the tree of height : %d\n",findheight(root)+1);
+    levelorder();
 }
