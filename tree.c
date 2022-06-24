@@ -61,12 +61,28 @@ int findmax(struct Node *root){
     }
 }
 
+int findheight(struct Node *root){
+    if(root==NULL){
+        return -1;
+    }else{
+        int leftheight=findheight(root->left);
+        int rightheight=findheight(root->right);
+        if(leftheight>rightheight){
+            return leftheight+1;
+        }else{
+            return rightheight+1;
+        }
+    }
+}
+
 int main(){
     root=insert(root,15);
     root=insert(root,10);
     root=insert(root,25);
     root=insert(root,5);
     root=insert(root,7);
+    root=insert(root,3);
+    root=insert(root,8);
     int number;
     printf("Enter the number which you want to find:");
     scanf("%d",&number);
@@ -77,4 +93,5 @@ int main(){
     }
     printf(" the max value in tree : %d\n",findmax(root));
     printf(" the min value in tree : %d\n",findmin(root));
+    printf("the tree of height : %d",findheight(root)+1);
 }
