@@ -41,6 +41,26 @@ bool search(struct Node *root,int data){
     }
 }
 
+int findmin(struct Node *root){
+    if(root==NULL){
+        return -1;
+    }else if(root->left==NULL){
+        return root->data;
+    }else{
+        return findmin(root->left);
+    }
+}
+
+int findmax(struct Node *root){
+    if(root==NULL){
+        return -1;
+    }else if(root->right==NULL){
+        return root->data;
+    }else{
+        return findmin(root->right);
+    }
+}
+
 int main(){
     root=insert(root,15);
     root=insert(root,10);
@@ -55,4 +75,6 @@ int main(){
     }else{
         printf("\nNot find !!\n");
     }
+    printf(" the max value in tree : %d\n",findmax(root));
+    printf(" the min value in tree : %d\n",findmin(root));
 }
