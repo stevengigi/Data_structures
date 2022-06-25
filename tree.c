@@ -147,6 +147,39 @@ void postorder(struct Node *root){
     printf(" %d ",root->data);
 }
 
+bool issubtreeless(struct Node *root,int value){
+    if(root==NULL){
+        return true;
+    }
+    if(root->data <= value && issubtreeless(root->left,value) && issubtreeless(root->right,value)){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool issubtreegreater(struct Node *root,int value){
+    if(root==NULL){
+        return true;
+    }
+    if(root->data > value && issubtreegreater(root->left,value) && issubtreegreater(root->right,value)){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+bool isbinarysearchtree(struct Node *root){
+    if(root ==NULL){
+        return true;;
+    }
+    if(issubtreeless(root->left,root->data) && issubtreegreater(root->right,root->data) && isbinarysearchtree(root->left) && isbinarysearchtree(root->right)){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 int main(){
     root=insert(root,15);
     root=insert(root,10);
@@ -176,5 +209,5 @@ int main(){
     printf("Postorder : ");
     postorder(root);
     printf("\n");
-
+    printf("Is Binary search tree  ?? \nAnswer : %d \n",isbinarysearchtree(root));
 }
