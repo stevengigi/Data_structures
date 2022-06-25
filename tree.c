@@ -81,7 +81,8 @@ int findheight(struct Node *root){
 }
 
 void addq(struct Node *root){
-    struct Node *temp=root;
+    struct Node *temp=(struct Node*)malloc(sizeof(struct Node));
+    temp=root;
     if(rear==NULL && front==NULL){
         rear=temp;
         front=temp;
@@ -98,13 +99,14 @@ void deleteq(){
     }
     struct Node *temp=front;
     front=temp->next;
-    free(temp);
+    //free(temp);
 }
 
 void levelorder(){
     if(root==NULL){
         return;
     }
+
     addq(root);
     printf("LevelOrder : ");
     while(front!=NULL)
@@ -116,6 +118,33 @@ void levelorder(){
         deleteq();
     }
     printf("\n");
+}
+//(DLR)
+void preorder(struct Node* root){
+    if(root == NULL){
+        return;
+    }
+    printf(" %d ",root->data);
+    preorder(root->left);
+    preorder(root->right);
+}
+//(LDR)
+void inorder(struct Node *root){
+    if(root==NULL){
+        return;
+    }
+    inorder(root->left);
+    printf(" %d ",root->data);
+    inorder(root->right);
+}
+//(LRD)
+void postorder(struct Node *root){
+    if(root==NULL){
+        return;
+    }
+    postorder(root->left);
+    postorder(root->right);
+    printf(" %d ",root->data);
 }
 
 int main(){
@@ -138,4 +167,14 @@ int main(){
     printf("the min value in tree : %d\n",findmin(root));
     printf("the tree of height : %d\n",findheight(root)+1);
     levelorder();
+    printf("Preorder : ");
+    preorder(root);
+    printf("\n");
+    printf("Inorder : ");
+    inorder(root);
+    printf("\n");
+    printf("Postorder : ");
+    postorder(root);
+    printf("\n");
+
 }
