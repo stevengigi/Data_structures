@@ -229,6 +229,45 @@ struct Node *Delete(struct Node*root,int data){
     return root;
 }
 
+struct Node *FIND(struct Node *root,int data){
+    if(root==NULL){
+        return NULL;
+    }else if(root->data==data){
+        return root;
+    }else if(root->data > data){
+        FIND(root->left,data);
+    }else{
+        FIND(root->right,data);
+    }
+}
+//successor must be larger that data(InOrder)
+struct Node *getsuccessor(struct Node *root,int data){
+    struct Node *current=FIND(root,data);
+    if(current==NULL){
+        return NULL;
+    }
+    //case 1 right subtree
+    if(current->right!=NULL){
+        return FINDMIN(current->right);
+    }
+    // case 2 no right subtree
+    else{
+        struct Node *successor=NULL;
+        struct Node *ancestor=root;
+        while(ancestor != current){
+            if(current->data < ancestor->data){
+                successor =ancestor;
+                ancestor = ancestor -> left;
+            }
+            else{
+                ancestor =ancestor->right;
+            }
+        }
+        return successor;
+    }
+
+}
+
 int main(){
     root=insert(root,15);
     root=insert(root,10);
@@ -261,4 +300,6 @@ int main(){
     printf("Is Binary search tree  ?? \nAnswer : %d \n",isbinarysearchtree(root));
     root=Delete(root,5);
     levelorder(root);
+    struct Node *temp=getsuccessor(root,8);
+    printf("successor(8) : %d \n",temp->data);
 }
