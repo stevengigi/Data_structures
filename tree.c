@@ -102,7 +102,7 @@ void deleteq(){
     //free(temp);
 }
 
-void levelorder(){
+void levelorder(struct Node *root){
     if(root==NULL){
         return;
     }
@@ -118,6 +118,8 @@ void levelorder(){
         deleteq();
     }
     printf("\n");
+    rear=NULL;
+    front=NULL;
 }
 //(DLR)
 void preorder(struct Node* root){
@@ -180,6 +182,53 @@ bool isbinarysearchtree(struct Node *root){
     }
 }
 
+struct Node *FINDMIN(struct Node *root){
+    if(root->left==NULL){
+        return root;
+    }else{
+        return FINDMIN(root->left);
+    }
+}
+
+struct Node *Delete(struct Node*root,int data){
+    if(root==NULL){
+        return root;
+    }else if(data < root->data){
+            Delete(root->left,data);
+    }else if(data > root->data){
+            Delete(root->right,data);
+    }else{ //find the Node
+        //case 1 no child
+        if(root->left==NULL && root->right==NULL){
+            free(root);
+            root=NULL;
+            return root;
+        }
+        //case 2 1 child
+        else if(root->right!=NULL && root->left==NULL){
+            struct Node *temp=root;
+            root=root->right;
+            free(temp);
+            return root;
+        }
+        else if(root->left!=NULL && root->right==NULL){
+            struct Node *temp=root;
+            root=root->left;
+            free(temp);
+            return root;
+        }
+        //case 3 : two children
+        else{
+            struct Node *temp=FINDMIN(root->right);
+            root->data=temp->data;
+            root->right=Delete(root->right,temp->data);
+            return root;
+        }
+
+    }
+    return root;
+}
+
 int main(){
     root=insert(root,15);
     root=insert(root,10);
@@ -199,7 +248,7 @@ int main(){
     printf("the max value in tree : %d\n",findmax(root));
     printf("the min value in tree : %d\n",findmin(root));
     printf("the tree of height : %d\n",findheight(root)+1);
-    levelorder();
+    levelorder(root);
     printf("Preorder : ");
     preorder(root);
     printf("\n");
@@ -210,4 +259,6 @@ int main(){
     postorder(root);
     printf("\n");
     printf("Is Binary search tree  ?? \nAnswer : %d \n",isbinarysearchtree(root));
+    root=Delete(root,5);
+    levelorder(root);
 }
