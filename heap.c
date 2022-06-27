@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
 #define maxsize 20
 //maxheap
 int size=-1;
@@ -96,6 +97,29 @@ void printarray(int *array){
 int get_max(int *array){
     return array[0];
 }
+
+void reverse(int *sort ,int start,int end){
+    while(start<end){
+        swap(&sort[start],&sort[end]);
+        start++;
+        end--;
+    }
+}
+
+void printsort(int *sort){
+    printf("sort : ");
+    for(int i=0;i<size;i++){
+        printf(" %d ",sort[i]);
+    }
+    printf("\n");
+}
+
+void make_max_heap(int *array,int n){
+    for(int i=(n-1)/2;i>=0;i--){
+        max_heapify(array,i);
+    }
+}
+
 int main(){
     int array[maxsize];
     int sort[maxsize];
@@ -130,4 +154,18 @@ int main(){
     printarray(array);
     max_heap_sort(array,sort);
 
+    printf("size : %d\n",size);
+
+    int n=10;
+    unsigned int seed =time(NULL);
+    srand(seed);
+
+    for(int i=0;i<n;i++){
+        size++;
+        array[i]=rand()%15;
+    }
+    printarray(array);
+    make_max_heap(array,n);
+    printarray(array);
+    max_heap_sort(array,sort);
 }
