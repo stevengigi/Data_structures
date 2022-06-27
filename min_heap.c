@@ -67,12 +67,17 @@ void delete(int *array,int data){
         }
     }
     if(flag==0){
-        printf(" No data in array\n");
         return;
     }else{
         swap(&array[i],&array[size]);
         size--;
         min_heapify(array,i);
+    }
+    for(i=0;i<=size;i++){
+        if(array[i]==data){
+            delete(array,data);
+            break;
+        }
     }
 }
 
